@@ -4,10 +4,7 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour
 {
 
-    public float angularSpeed = Mathf.Infinity;
-    public int attacksPerSecond;
-    public float attackDamage;
-    public float health;
+    public EnemyAttributes attributes;
 
     protected GameObject _player;
     protected Weapon _weapon;
@@ -25,11 +22,15 @@ public class Enemy : MonoBehaviour
         _player = GameObject.FindGameObjectWithTag("Player");
         _weapon = _player.GetComponentInChildren<Weapon>();
         _healthbar = GetComponentInChildren<EnemyHealthbar>();
-        _healthbar.Reset(this, health);
         _nav = GetComponent<NavMeshAgent>();
         _anim = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
         _nav.updateRotation = false;
+    }
+
+    public void Start()
+    {
+        _healthbar.Reset(this, attributes.health);
     }
 
     public void Update()
@@ -89,7 +90,7 @@ public class Enemy : MonoBehaviour
     {
         Vector3 direction = (target.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * angularSpeed);
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * attributes.angularSpeed);
     }
 
     protected virtual void OnWeaponHit(Vector3 dir, Vector3 pos)

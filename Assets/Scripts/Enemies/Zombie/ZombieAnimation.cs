@@ -1,6 +1,6 @@
 ﻿    using UnityEngine;
 
-public class ZombieAC : Enemy {
+public class ZombieAnimation : Enemy {
     public string walkAnimation = "walk";
     public string attackAnimation = "attack";
     public string rightFallAnimation = "right_fall";
