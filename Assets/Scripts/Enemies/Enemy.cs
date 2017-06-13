@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour
     protected Rigidbody _rb;
     protected string _walkAnimation = "walk";
     protected string _attackAnimation = "attack";
+    protected bool _is_walking = true;
 
     public void Awake()
     {
@@ -29,12 +30,14 @@ public class Enemy : MonoBehaviour
 
     public void Update()
     {
-        _nav.SetDestination(_player.transform.position);
         RotateTowards(_player.transform);
         // When attack animation is finished, keep moving
-        if (!_player_in_range && _anim.GetCurrentAnimatorStateInfo(0).IsName(_walkAnimation))
+        if (!_player_in_range)
         {
-            _nav.SetDestination(_player.transform.position);
+            if (_anim.GetCurrentAnimatorStateInfo(0).IsName(_walkAnimation) && _is_walking)
+            {
+                _nav.SetDestination(_player.transform.position);
+            }
         }
     }
 
