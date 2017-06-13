@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour
     public float angularSpeed = Mathf.Infinity;
     public int attacksPerSecond;
     public float attackDamage;
+    public float health;
 
     protected GameObject _player;
     protected Weapon _weapon;
@@ -14,6 +15,7 @@ public class Enemy : MonoBehaviour
     protected NavMeshAgent _nav;
     protected Animator _anim;
     protected Rigidbody _rb;
+    protected EnemyHealthbar _healthbar;
     protected string _walkAnimation = "walk";
     protected string _attackAnimation = "attack";
     protected bool _is_walking = true;
@@ -22,6 +24,8 @@ public class Enemy : MonoBehaviour
     {
         _player = GameObject.FindGameObjectWithTag("Player");
         _weapon = _player.GetComponentInChildren<Weapon>();
+        _healthbar = GetComponentInChildren<EnemyHealthbar>();
+        _healthbar.Reset(this, health);
         _nav = GetComponent<NavMeshAgent>();
         _anim = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
@@ -37,6 +41,10 @@ public class Enemy : MonoBehaviour
             if (_anim.GetCurrentAnimatorStateInfo(0).IsName(_walkAnimation) && _is_walking)
             {
                 _nav.SetDestination(_player.transform.position);
+            }
+            else
+            {
+                _nav.SetDestination(transform.position);
             }
         }
     }
@@ -86,6 +94,18 @@ public class Enemy : MonoBehaviour
 
     protected virtual void OnWeaponHit(Vector3 dir, Vector3 pos)
     {
+        _healthbar.OnWeaponHit(_weapon.damage);
         _weapon.OnHitEnemy(pos);
+    }
+
+    public void StartWalking()
+    {
+        _is_walking = true;
+    }
+
+    public void TryToDie()
+    {
+        if (!_healthbar.IsEmpty()) return;
+        Destroy(gameObject);
     }
 }

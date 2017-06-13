@@ -3,6 +3,7 @@
 public class Weapon : MonoBehaviour
 {
     public float impact = 1.0f;
+    public float damage = 15.0f;
 
     protected ParticleSystem _effectParticles;
 
