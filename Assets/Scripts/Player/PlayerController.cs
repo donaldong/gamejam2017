@@ -17,8 +17,7 @@ public class PlayerController : OVRPlayerController
 
     public void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        //if (OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger))
+        if (_animation.IsPlayable(PlayerAnimation.Spell.PrimaryIndexTrigger))
         {
             _animation.Play(PlayerAnimation.Spell.PrimaryIndexTrigger);
         }
