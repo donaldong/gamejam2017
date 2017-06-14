@@ -32,6 +32,7 @@ public class EnemyWaveSpawner : MonoBehaviour {
             GameObject newEnemy = Instantiate(wave.enemy, gameObject.transform);
             newEnemy.GetComponent<Enemy>().attributes = attributes;
             newEnemy.transform.localPosition = attributes.positionOffset;
+            newEnemy.gameObject.tag = "Enemy";
             yield return new WaitForSeconds(1f/wave.rate);
         }
         _state = State.Waiting;

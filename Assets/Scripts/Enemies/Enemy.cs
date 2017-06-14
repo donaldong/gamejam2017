@@ -62,6 +62,11 @@ public class Enemy : MonoBehaviour
             SetPlayeInRange(false);
     }
 
+    public void OnSpecial()
+    {
+        OnWeaponHit(-transform.forward, Vector3.zero); 
+    }
+
     public void OnCollisionEnter(Collision collision)
     {
         foreach (ContactPoint contact in collision.contacts)
