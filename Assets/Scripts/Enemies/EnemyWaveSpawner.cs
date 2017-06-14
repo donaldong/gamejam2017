@@ -7,14 +7,14 @@ using UnityEngine;
 
 public class EnemyWaveSpawner : MonoBehaviour {
 
-    public enum State { SPAWNING, WAITING };
+    public enum State { Spawning, Waiting };
 
     public EnemyWave[] waves;
     public float countDown = 10.0f;
     public bool loopWaves = true;
 
     protected float _countDown;
-    protected State _state = State.WAITING;
+    protected State _state = State.Waiting;
     protected int _waveCount;
 
     private void Awake()
@@ -25,7 +25,7 @@ public class EnemyWaveSpawner : MonoBehaviour {
 
     IEnumerator Spwan(EnemyWave wave)
     {
-        _state = State.SPAWNING;
+        _state = State.Spawning;
 
         foreach (EnemyAttributes attributes in wave.enemiesInWave)
         {
@@ -34,7 +34,7 @@ public class EnemyWaveSpawner : MonoBehaviour {
             newEnemy.transform.localPosition = attributes.positionOffset;
             yield return new WaitForSeconds(1f/wave.rate);
         }
-        _state = State.WAITING;
+        _state = State.Waiting;
         yield break;
     }
 
@@ -47,7 +47,7 @@ public class EnemyWaveSpawner : MonoBehaviour {
                 if (loopWaves) _waveCount = 0;
                 return;
             }
-            if (_state != State.SPAWNING)
+            if (_state != State.Spawning)
             {
                 StartCoroutine(Spwan(waves[_waveCount]));
                 _waveCount++;
@@ -56,7 +56,7 @@ public class EnemyWaveSpawner : MonoBehaviour {
         }
         else
         {
-            if (_state != State.SPAWNING)
+            if (_state != State.Spawning)
             {
                 _countDown -= Time.deltaTime;
             }
