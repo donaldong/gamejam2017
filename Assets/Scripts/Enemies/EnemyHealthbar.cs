@@ -27,7 +27,7 @@ public class EnemyHealthbar : MonoBehaviour {
         _text.text = "HP: " + _currentHealth + "/" + _maxHealth;
     }
 
-    public void OnWeaponHit(float damage)
+    public void OnHit(float damage)
     {
         float newHealth = _currentHealth - damage;
         if (newHealth > 0)

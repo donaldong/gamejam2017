@@ -93,10 +93,18 @@ public class Enemy : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * attributes.angularSpeed);
     }
 
+    // called by Enemy class
     protected virtual void OnWeaponHit(Vector3 dir, Vector3 pos)
     {
-        _healthbar.OnWeaponHit(_weapon.damage);
+        _healthbar.OnHit(_weapon.damage);
         _weapon.OnHitEnemy(pos);
+    }
+
+    // Called by Spell class
+    public virtual void OnSpellHit(float damage, float impact, Vector3 dir, Vector3 pos)
+    {
+        _rb.AddForceAtPosition(dir * impact, pos);
+        _healthbar.OnHit(damage);
     }
 
     public void StartWalking()

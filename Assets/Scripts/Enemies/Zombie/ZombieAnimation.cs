@@ -1,6 +1,7 @@
 ﻿    using UnityEngine;
 
-public class ZombieAnimation : Enemy {
+public class ZombieAnimation : Enemy
+{
     public string walkAnimation = "walk";
     public string attackAnimation = "attack";
     public string rightFallAnimation = "right_fall";
@@ -11,6 +12,17 @@ public class ZombieAnimation : Enemy {
     protected override void OnWeaponHit(Vector3 dir, Vector3 pos)
     {
         base.OnWeaponHit(dir, pos);
+
+    }
+
+    public override void OnSpellHit(float damage, float impact, Vector3 dir, Vector3 pos)
+    {
+        base.OnSpellHit(damage, impact, dir, pos);
+        _play(dir);
+    }
+
+    protected void _play(Vector3 dir)
+    {
         _is_walking = false;
         Vector3 localDir = transform.InverseTransformDirection(dir);
         if (localDir.z < -backFallThreshold)
