@@ -18,6 +18,7 @@ public class MotionSpecial : MonoBehaviour
     //thrown vars
     public GameObject weapon;
     public GameObject weaponDropped;
+    public OVRInput.Controller controller;
     private bool held;
 
     //shared vars
@@ -46,14 +47,14 @@ public class MotionSpecial : MonoBehaviour
                             if (timeStamp <= Time.time) //cooldown over
                             {
                                 timeStamp = Time.time + cooldownTime;
-                                Debug.Log("AOE Special Activated");
+                                Debug.Log("[Sky Strike] Special Activated, Cooldown: " + cooldownTime + "s");
                                 GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-
+                                var enemyCount = 0;
                                 foreach (GameObject enemy in enemies)
                                 {
                                     if (enemy.transform.parent.parent == null) //only root objects
                                     {
-                                        Debug.Log("Affected enemy: " + enemy.gameObject.name);
+                                        enemyCount++;
                                         float dist = Vector3.Distance(GameObject.FindWithTag("Player").transform.position, enemy.transform.position);
                                         if (dist < rangeOfEffect) //kill all enemies within range
                                         {
@@ -67,6 +68,7 @@ public class MotionSpecial : MonoBehaviour
                                         }
                                     }
                                 }
+                                Debug.Log("[Sky Strike] Affected " + enemyCount + " enemies.");
                             }
                         }
                     }
@@ -82,7 +84,7 @@ public class MotionSpecial : MonoBehaviour
                 GameObject newWeapon = Instantiate(weapon, new Vector3(weapon.transform.position.x, weapon.transform.position.y, weapon.transform.position.z), Quaternion.identity);
                 newWeapon.transform.rotation = weapon.transform.rotation;
                 newWeapon.AddComponent<Rigidbody>();
-                //newWeapon.GetComponent<Rigidbody>().AddForce(newWeapon.transform.forward * 1000); //throw
+                newWeapon.GetComponent<Rigidbody>().velocity = OVRInput.GetLocalControllerVelocity(controller);
                 newWeapon.tag = "Weapon";
                 weaponDropped = newWeapon;
                 weapon.SetActive(false);
@@ -90,16 +92,16 @@ public class MotionSpecial : MonoBehaviour
             }
             else
             {
-                if (vision.collider.tag == "Weapon")
-                {
+                //if (vision.collider.tag == "Weapon")
+                //{
                     Destroy(weaponDropped);
                     weapon.SetActive(true);
                     held = true;
-                }
+                /*}
                 else
                 {
                     Debug.Log("[Pick Up] Not Looking at Weapon");
-                }
+                }*/
             }
         }
     }

@@ -20,7 +20,7 @@ public class Enemy : MonoBehaviour
     public void Awake()
     {
         _player = GameObject.FindGameObjectWithTag("Player");
-        _weapon = _player.GetComponentInChildren<Weapon>();
+        _weapon = GameObject.FindGameObjectWithTag("Weapon").GetComponentInChildren<Weapon>();
         _healthbar = GetComponentInChildren<EnemyHealthbar>();
         _nav = GetComponent<NavMeshAgent>();
         _anim = GetComponent<Animator>();
@@ -35,6 +35,12 @@ public class Enemy : MonoBehaviour
 
     public void Update()
     {
+        //check weapon
+        if (_weapon == null)
+        {
+            _weapon = GameObject.FindGameObjectWithTag("Weapon").GetComponentInChildren<Weapon>();
+        }
+
         RotateTowards(_player.transform);
         // When attack animation is finished, keep moving
         if (!_player_in_range)
