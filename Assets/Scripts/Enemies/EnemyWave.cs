@@ -6,5 +6,5 @@ using UnityEngine;
 public class EnemyWave {
     public GameObject enemy;
     public float rate = 1.0f;
-    public EnemyAttributes[] waveAttributes;
+    public EnemyAttributes[] enemiesInWave;
 }
