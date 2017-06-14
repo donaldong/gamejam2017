@@ -33,6 +33,7 @@ public class MotionSpecial : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         //sky strike
         if (held && Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out vision, 10))
         {
@@ -84,7 +85,9 @@ public class MotionSpecial : MonoBehaviour
                 GameObject newWeapon = Instantiate(weapon, new Vector3(weapon.transform.position.x, weapon.transform.position.y, weapon.transform.position.z), Quaternion.identity);
                 newWeapon.transform.rotation = weapon.transform.rotation;
                 newWeapon.AddComponent<Rigidbody>();
-                newWeapon.GetComponent<Rigidbody>().velocity = OVRInput.GetLocalControllerVelocity(controller);
+                newWeapon.GetComponent<Rigidbody>().AddForce(OVRInput.GetLocalControllerVelocity(controller)*500);
+                Debug.Log(OVRInput.GetLocalControllerAngularVelocity(controller));
+
                 newWeapon.tag = "Weapon";
                 weaponDropped = newWeapon;
                 weapon.SetActive(false);
