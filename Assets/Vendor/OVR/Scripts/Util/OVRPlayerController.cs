@@ -103,7 +103,7 @@ public class OVRPlayerController : MonoBehaviour
 		CameraRig.transform.localPosition = p;
 	}
 
-	void Awake()
+	protected void Awake()
 	{
 		Controller = gameObject.GetComponent<CharacterController>();
 
