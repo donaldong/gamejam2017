@@ -127,18 +127,25 @@ public class Weapon : MonoBehaviour
 
         // Debug key: 2
         if (Input.GetKeyDown(KeyCode.Alpha2) ||
-            OVRInput.GetUp(OVRInput.Button.SecondaryHandTrigger, controller))
+            OVRInput.Get(OVRInput.Button.SecondaryHandTrigger, controller))
         {
             if (_bHolding)
-            { Drop(); }
+            {
+                Drop();
+                return;
+            }
             else if (_countDown <= 0)
             {
                 _bPullingBack = true;
             }
+
+            Debug.Log(IsFocusedByEye());
             if (!_bPullingBack && IsFocusedByEye())
             {
                 if (GetHandDistance() <= pickRadius)
-                { PickUp(); }
+                {
+                    PickUp();
+                }
             }
         }
 
