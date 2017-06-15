@@ -40,6 +40,11 @@ public class EnemyHealthbar : MonoBehaviour {
         }   
     }
 
+    public float GetHealth()
+    {
+        return _maxHealth;
+    }
+
     public bool IsEmpty()
     {
         return _empty;

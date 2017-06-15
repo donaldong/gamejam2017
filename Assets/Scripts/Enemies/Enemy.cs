@@ -116,6 +116,8 @@ public class Enemy : MonoBehaviour
     public void TryToDie()
     {
         if (!_healthbar.IsEmpty()) return;
+        var player = GameObject.FindGameObjectWithTag("Player").transform.root.gameObject;
+        player.GetComponent<GameKeeper>().registerDeath(_healthbar.GetHealth());
         Destroy(gameObject);
     }
 }
