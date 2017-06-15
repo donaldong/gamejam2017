@@ -5,23 +5,21 @@ using UnityEngine;
 public class SpellPrimaryIndexTrigger : Spell
 {
     // a dictionary for tracking PrimaryIndexTrigger spell
-    protected Dictionary<GameObject, float> _animations;
-    protected OVRCameraRig _camera;
-    protected float _countDown;
+    protected Dictionary<GameObject, float> _clips;
 
-    public void Awake()
+    protected new void Awake()
     {
-        _animations = new Dictionary<GameObject, float>();
-        _camera = GetComponentInChildren<OVRCameraRig>();
+        base.Awake();
+        _clips = new Dictionary<GameObject, float>();
     }
 
     private bool _playable()
     {
+        // Debug key: 1
         if (_countDown <= 0)
         {
             _countDown = coolDown;
-            return Input.GetMouseButtonDown(0) || OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger)
-                && !OVRInput.Get(OVRInput.Button.SecondaryIndexTrigger);
+            return Input.GetKey(KeyCode.Alpha1) || OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger);
         }
         return false;
     }
@@ -35,22 +33,22 @@ public class SpellPrimaryIndexTrigger : Spell
         }
 
         // destroy finished animations for pit
-        List<GameObject> keys = new List<GameObject>(_animations.Keys);
+        List<GameObject> keys = new List<GameObject>(_clips.Keys);
         foreach (GameObject spellAnimation in keys)
         {
-            _animations[spellAnimation] += Time.deltaTime;
-            if (_animations[spellAnimation] >= lifeSpan)
+            _clips[spellAnimation] += Time.deltaTime;
+            if (_clips[spellAnimation] >= lifeSpan)
             {
-                _animations.Remove(spellAnimation);
+                _clips.Remove(spellAnimation);
                 Destroy(spellAnimation); 
             }
         }
 
         if (_playable())
         {
-            var i = Instantiate(spell, _camera.leftHandAnchor);
+            var i = Instantiate(spell, pc.OVRCamera.leftHandAnchor);
             i.transform.localPosition = Vector3.zero;
-            _animations.Add(i, 0f);
+            _clips.Add(i, 0f);
         }
     }
 

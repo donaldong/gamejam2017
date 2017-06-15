@@ -6,8 +6,9 @@ public class Enemy : MonoBehaviour
 
     public EnemyAttributes attributes;
 
-    protected GameObject _player;
-    protected Weapon _weapon;
+    [HideInInspector]
+    public static PlayerController pc;
+
     protected bool _player_in_range;
     protected NavMeshAgent _nav;
     protected Animator _anim;
@@ -19,8 +20,6 @@ public class Enemy : MonoBehaviour
 
     public void Awake()
     {
-        _player = GameObject.FindGameObjectWithTag("Player");
-        _weapon = _player.GetComponentInChildren<Weapon>();
         _healthbar = GetComponentInChildren<EnemyHealthbar>();
         _nav = GetComponent<NavMeshAgent>();
         _anim = GetComponent<Animator>();
@@ -35,13 +34,13 @@ public class Enemy : MonoBehaviour
 
     public void Update()
     {
-        RotateTowards(_player.transform);
+        RotateTowards(pc.transform);
         // When attack animation is finished, keep moving
         if (!_player_in_range)
         {
             if (_anim.GetCurrentAnimatorStateInfo(0).IsName(_walkAnimation) && _is_walking)
             {
-                _nav.SetDestination(_player.transform.position);
+                _nav.SetDestination(pc.transform.position);
             }
             else
             {
@@ -52,13 +51,13 @@ public class Enemy : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject == _player)
+        if (other.gameObject == pc.gameObject)
             SetPlayeInRange(true);
     }
 
     public void OnTriggerExit(Collider other)
     {
-        if (other.gameObject == _player)
+        if (other.gameObject == pc.gameObject)
             SetPlayeInRange(false);
     }
 
@@ -66,9 +65,9 @@ public class Enemy : MonoBehaviour
     {
         foreach (ContactPoint contact in collision.contacts)
         {
-            if (contact.otherCollider.gameObject == _weapon.gameObject)
+            if (contact.otherCollider.gameObject == pc.weapon.gameObject)
             {
-                _rb.AddForceAtPosition(contact.normal * _weapon.impact, contact.point);
+                _rb.AddForceAtPosition(contact.normal * pc.weapon.impact, contact.point);
                 OnWeaponHit(contact.normal, contact.point);
             }
         }
@@ -96,8 +95,8 @@ public class Enemy : MonoBehaviour
     // called by Enemy class
     protected virtual void OnWeaponHit(Vector3 dir, Vector3 pos)
     {
-        _healthbar.OnHit(_weapon.damage);
-        _weapon.OnHitEnemy(pos);
+        _healthbar.OnHit(pc.weapon.damage);
+        pc.weapon.OnHitEnemy(pos);
     }
 
     // Called by Spell class
@@ -107,11 +106,13 @@ public class Enemy : MonoBehaviour
         _healthbar.OnHit(damage);
     }
 
+    // Called by Animation Event
     public void StartWalking()
     {
         _is_walking = true;
     }
 
+    // Called by Animation Event
     public void TryToDie()
     {
         if (!_healthbar.IsEmpty()) return;
