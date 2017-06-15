@@ -92,7 +92,9 @@ public class Weapon : MonoBehaviour
         _bHolding = false;
         transform.parent = null;
         Unfreeze();
-        _rb.AddForce(OVRInput.GetLocalControllerVelocity(controller) * throwScaler);
+        var v = GetControllerVelocity();
+        Debug.Log(v);
+        _rb.AddForce(v * throwScaler);
     }
 
     protected void PickUp()
@@ -119,6 +121,13 @@ public class Weapon : MonoBehaviour
         if (_bOnRightHand)
             return (- transform.position + pc.OVRCamera.rightHandAnchor.position).normalized;
         return (- transform.position + pc.OVRCamera.leftHandAnchor.position).normalized;
+    }
+
+    protected Vector3 GetControllerVelocity()
+    {
+        if (_bOnRightHand)
+            return OVRInput.GetLocalControllerVelocity(OVRInput.Controller.RTouch);
+        return OVRInput.GetLocalControllerVelocity(OVRInput.Controller.RTouch);
     }
 
     public void Update()

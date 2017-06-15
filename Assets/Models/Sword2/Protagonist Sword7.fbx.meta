@@ -1,54 +1,37 @@
 fileFormatVersion: 2
-guid: 2a57c4f34b877154180e1853753b6ae9
-timeCreated: 1497485098
+guid: 9227ed7c45c87cb419522de09f5bade1
+timeCreated: 1497548005
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: Cylinder
-    100002: Cylinder.001
-    100004: Cylinder.002
-    100006: Cylinder.002_MeshPart0
-    100008: Cylinder.002_MeshPart1
-    100010: Grid
-    100012: Icosphere
-    100014: Plane
-    100016: //RootNode
-    100018: Sphere
-    400000: Cylinder
-    400002: Cylinder.001
-    400004: Cylinder.002
-    400006: Cylinder.002_MeshPart0
-    400008: Cylinder.002_MeshPart1
-    400010: Grid
-    400012: Icosphere
-    400014: Plane
-    400016: //RootNode
-    400018: Sphere
-    2300000: Cylinder
-    2300002: Cylinder.001
-    2300004: Cylinder.002_MeshPart0
-    2300006: Cylinder.002_MeshPart1
-    2300008: Grid
-    2300010: Icosphere
-    2300012: Plane
-    2300014: Sphere
-    3300000: Cylinder
-    3300002: Cylinder.001
-    3300004: Cylinder.002_MeshPart0
-    3300006: Cylinder.002_MeshPart1
-    3300008: Grid
-    3300010: Icosphere
-    3300012: Plane
-    3300014: Sphere
-    4300000: Sphere
+    100000: Cylinder.001
+    100002: Cylinder.002
+    100004: Grid
+    100006: Icosphere
+    100008: Plane
+    100010: //RootNode
+    400000: Cylinder.001
+    400002: Cylinder.002
+    400004: Grid
+    400006: Icosphere
+    400008: Plane
+    400010: //RootNode
+    2300000: Cylinder.001
+    2300002: Cylinder.002
+    2300004: Grid
+    2300006: Icosphere
+    2300008: Plane
+    3300000: Cylinder.001
+    3300002: Cylinder.002
+    3300004: Grid
+    3300006: Icosphere
+    3300008: Plane
+    4300000: Icosphere
     4300002: Grid
-    4300004: Icosphere
-    4300006: Cylinder.002_MeshPart0
-    4300008: Cylinder.002_MeshPart1
-    4300010: Cylinder.001
-    4300012: Cylinder
-    4300014: Plane
+    4300004: Cylinder.002
+    4300006: Cylinder.001
+    4300008: Plane
   materials:
     importMaterials: 1
     materialName: 0
