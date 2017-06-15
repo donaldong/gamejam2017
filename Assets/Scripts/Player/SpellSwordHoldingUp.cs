@@ -11,6 +11,7 @@ public class SpellSwordHoldingUp : Spell
         // Debug key: q
         if (_playable() || Input.GetKey(KeyCode.Q))
         {
+            Debug.Log("Die");
             GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
             foreach (GameObject enemy in enemies)
             {

@@ -2,7 +2,7 @@
 
 public class Weapon : MonoBehaviour
 {
-    public OVRInput.Controller controller;
+    public bool onRightHand;
     public Vector3 handOffsetPosition;
     public Vector3 handOffsetRotation;
     public float impact = 1.0f;
@@ -25,7 +25,6 @@ public class Weapon : MonoBehaviour
     protected bool _bHolding;
     protected float _countDown;
     protected float _gcd;
-    protected bool _bOnRightHand;
     protected bool _bPullingBack;
     protected float _pcRadius;
 
@@ -37,11 +36,6 @@ public class Weapon : MonoBehaviour
         _hand = transform.parent;
         _bHolding = true;
         _bPullingBack = false;
-        if (controller == OVRInput.Controller.RTouch ||
-            controller == OVRInput.Controller.RTrackedRemote)
-            _bOnRightHand = true;
-        else
-            _bOnRightHand = false;
     }
 
     public void Start()
@@ -61,11 +55,18 @@ public class Weapon : MonoBehaviour
     // Called by some spells
     public bool IsHoldingUp()
     {
-        return transform.rotation.x > -threshold_rot &&
-            transform.rotation.x < threshold_rot &&
-            transform.rotation.z > -threshold_rot &&
-            transform.rotation.z < threshold_rot &&
-            transform.localPosition.y > threshold_pos_y;
+        float r_x, p_y;
+        if (onRightHand)
+        {
+            r_x = pc.OVRCamera.rightHandAnchor.localEulerAngles.x;
+            p_y = pc.OVRCamera.rightHandAnchor.localPosition.y;
+        }
+        else
+        {
+            r_x = pc.OVRCamera.leftHandAnchor.localEulerAngles.x;
+            p_y = pc.OVRCamera.leftHandAnchor.localPosition.y;
+        }
+        return r_x > threshold_rot && p_y > threshold_pos_y;
     }
 
     public bool IsFocusedByEye()
@@ -92,9 +93,7 @@ public class Weapon : MonoBehaviour
         _bHolding = false;
         transform.parent = null;
         Unfreeze();
-        var v = GetControllerVelocity();
-        Debug.Log(v);
-        _rb.AddForce(v * throwScaler);
+        _rb.AddForce(GetControllerVelocity() * throwScaler);
     }
 
     protected void PickUp()
@@ -111,21 +110,21 @@ public class Weapon : MonoBehaviour
 
     protected float GetHandDistance()
     {
-        if (_bOnRightHand)
+        if (onRightHand)
             return Vector3.Distance(transform.position, pc.OVRCamera.rightHandAnchor.position);
         return Vector3.Distance(transform.position, pc.OVRCamera.leftHandAnchor.position);
     }
 
     protected Vector3 GetHandDirection()
     {
-        if (_bOnRightHand)
+        if (onRightHand)
             return (- transform.position + pc.OVRCamera.rightHandAnchor.position).normalized;
         return (- transform.position + pc.OVRCamera.leftHandAnchor.position).normalized;
     }
 
     protected Vector3 GetControllerVelocity()
     {
-        if (_bOnRightHand)
+        if (onRightHand)
             return OVRInput.GetLocalControllerVelocity(OVRInput.Controller.RTouch);
         return OVRInput.GetLocalControllerVelocity(OVRInput.Controller.RTouch);
     }
@@ -147,7 +146,7 @@ public class Weapon : MonoBehaviour
 
         // Debug key: 2
         if (Input.GetKeyDown(KeyCode.Alpha2) ||
-            OVRInput.Get(OVRInput.Button.SecondaryHandTrigger, controller))
+            OVRInput.Get(OVRInput.Button.SecondaryHandTrigger, OVRInput.Controller.Touch))
         {
             if (_bHolding)
             {
