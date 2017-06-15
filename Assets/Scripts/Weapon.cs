@@ -8,6 +8,7 @@ public class Weapon : MonoBehaviour
     public float impact = 1.0f;
     public float damage = 15.0f;
     public float pickupCoolDown = 1.5f;
+    public float gcd = 0.3f;
     public float pickRadius = 0.15f;
     public float threshold_rot = 0.25f;
     public float threshold_pos_y = 0.5f;
@@ -23,6 +24,7 @@ public class Weapon : MonoBehaviour
     protected Rigidbody _rb;
     protected bool _bHolding;
     protected float _countDown;
+    protected float _gcd;
     protected bool _bOnRightHand;
     protected bool _bPullingBack;
     protected float _pcRadius;
@@ -86,6 +88,7 @@ public class Weapon : MonoBehaviour
     protected void Drop()
     {
         Debug.Log("Drop weapon");
+        _gcd = gcd;
         _bHolding = false;
         transform.parent = null;
         Unfreeze();
@@ -95,6 +98,7 @@ public class Weapon : MonoBehaviour
     protected void PickUp()
     {
         Debug.Log("Pick up weapon");
+        _gcd = gcd;
         _bHolding = true;
         _countDown = pickupCoolDown;
         transform.parent = _hand;
@@ -119,6 +123,13 @@ public class Weapon : MonoBehaviour
 
     public void Update()
     {
+        if (_gcd > 0)
+        {
+            _gcd -= Time.deltaTime;
+        }
+
+        if (_gcd > 0) return;
+
         // count down
         if (_countDown > 0 && !_bHolding)
         {
@@ -138,15 +149,6 @@ public class Weapon : MonoBehaviour
             {
                 _bPullingBack = true;
             }
-
-            Debug.Log(IsFocusedByEye());
-            if (!_bPullingBack && IsFocusedByEye())
-            {
-                if (GetHandDistance() <= pickRadius)
-                {
-                    PickUp();
-                }
-            }
         }
 
         if(_bPullingBack)
@@ -160,6 +162,7 @@ public class Weapon : MonoBehaviour
             else
             {
                 _bPullingBack = false;
+                PickUp();
             }
         }
     }
