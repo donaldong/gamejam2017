@@ -74,7 +74,6 @@ public class Weapon : MonoBehaviour
             p_y = pc.OVRCamera.leftHandAnchor.localPosition.y;
         }
         if (r_x < 0) r_x += 360.0f;
-        pc.debugMenu.text = "rx: " + r_x + " p_y: " + p_y;
         return r_x < 330.0f + threshold_rot && r_x > 330.0f - threshold_rot && p_y > threshold_pos_y;
     }
 

@@ -6,6 +6,8 @@ public class SpellSwordHoldingUp : Spell
 {
     public float range = 1000.0f;
 
+    protected GameObject _instance;
+
     public new void Update()
     {
         base.Update();
@@ -15,6 +17,10 @@ public class SpellSwordHoldingUp : Spell
         {
             Debug.Log("Die");
             pc.weapon.PlayAoeEffect();
+            Destroy(_instance);
+            _instance = Instantiate(spell, null);
+            _instance.transform.position = transform.position - new Vector3(0, 0.9f, 0);
+            _countDown = coolDown;
             GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
             foreach (GameObject enemy in enemies)
             {
@@ -29,9 +35,10 @@ public class SpellSwordHoldingUp : Spell
     {
         if (_countDown <= 0)
         {
-            _countDown = coolDown;
+            pc.debugMenu.text = "Spell Ready!";
             return pc.weapon.IsHoldingUp() && OVRInput.Get(OVRInput.Button.PrimaryHandTrigger, OVRInput.Controller.RTouch);
         }
+        pc.debugMenu.text = "AoE Cooldown: " + _countDown.ToString("n2");
         return false;
     }
 }

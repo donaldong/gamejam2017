@@ -8,6 +8,7 @@ using UnityEngine;
 public class PlayerController : OVRPlayerController
 {
     public float raycastDistance = 10.0f;
+    public GameObject text1;
 
     [HideInInspector]
     public RaycastHit eyeHit;
@@ -21,7 +22,7 @@ public class PlayerController : OVRPlayerController
         base.Awake();
         OVRCamera = GetComponentInChildren<OVRCameraRig>();
         weapon = GetComponentInChildren<Weapon>();
-        debugMenu = GetComponentInChildren<TextMesh>();
+        debugMenu = text1.GetComponent<TextMesh>();
         Enemy.pc = this;
         Spell.pc = this;
         Weapon.pc = this;
