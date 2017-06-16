@@ -122,9 +122,10 @@ public class Enemy : MonoBehaviour
         Destroy(gameObject);
     }
 
-    // Called by Animation Event
+    // Called by Animation Event (attack)
     public void PlayAudio()
     {
         _audio.Play();
+        pc.damageTaken += attributes.attackDamage;
     }
 }

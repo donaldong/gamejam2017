@@ -32,6 +32,8 @@ public class PlayerController : OVRPlayerController
     public int countEnemyKill;
     [HideInInspector]
     public int countWeaponThrow;
+    [HideInInspector]
+    public float damageTaken;
 
     protected new void Awake()
     {
@@ -40,6 +42,7 @@ public class PlayerController : OVRPlayerController
         weapon = GetComponentInChildren<Weapon>();
         debugMenu = text1.GetComponent<TextMesh>();
         countSpellAoe = 0;
+        damageTaken = 0.0f;
         countSpellIndex = 0;
         countEnemyKill = 0;
         countWeaponThrow = 0;
@@ -65,6 +68,7 @@ public class PlayerController : OVRPlayerController
 
     public void Update()
     {
+        Debug.Log(damageTaken);
         if (TresureBox.t0.left <= 0)
             TresureBox.t0.Open();
         if (TresureBox.t1.left <= 0)
