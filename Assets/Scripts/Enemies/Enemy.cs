@@ -18,6 +18,7 @@ public class Enemy : MonoBehaviour
     protected string _attackAnimation = "attack";
     protected bool _is_walking = true;
     protected AudioSource _audio;
+    protected bool _needRotate = true;
 
     public void Awake()
     {
@@ -89,6 +90,7 @@ public class Enemy : MonoBehaviour
 
     private void RotateTowards(Transform target)
     {
+        if (!_needRotate) return;
         Vector3 direction = (target.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * attributes.angularSpeed);

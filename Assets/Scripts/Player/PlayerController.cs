@@ -68,7 +68,8 @@ public class PlayerController : OVRPlayerController
 
     public void Update()
     {
-        Debug.Log(damageTaken);
+
+
         if (TresureBox.t0.left <= 0)
             TresureBox.t0.Open();
         if (TresureBox.t1.left <= 0)
@@ -77,5 +78,7 @@ public class PlayerController : OVRPlayerController
             TresureBox.t2.Open();
         if (TresureBox.t3.left <= 0)
             TresureBox.t3.Open();
+        if (TresureBox.t4.left <= 0)
+            TresureBox.t4.Open();
     }
 }
