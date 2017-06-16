@@ -2,6 +2,7 @@
 
 public class Weapon : MonoBehaviour
 {
+    // right hand only
     public bool onRightHand;
     public Vector3 handOffsetPosition;
     public Vector3 handOffsetRotation;
@@ -13,6 +14,7 @@ public class Weapon : MonoBehaviour
     public float threshold_rot = 0.25f;
     public float threshold_pos_y = 0.5f;
     public float throwScaler = 50.0f;
+    public GameObject AOE_Effects;
     public float pullBackScaler = 50.0f;
     public float pullBackRoation = 1.0f;
 
@@ -27,6 +29,8 @@ public class Weapon : MonoBehaviour
     protected float _gcd;
     protected bool _bPullingBack;
     protected float _pcRadius;
+    protected GameObject _aoeInstance;
+    protected ParticleSystem _effectAoe;
 
     public void Awake()
     {
@@ -36,6 +40,9 @@ public class Weapon : MonoBehaviour
         _hand = transform.parent;
         _bHolding = true;
         _bPullingBack = false;
+        _aoeInstance = Instantiate(AOE_Effects, transform);
+        _aoeInstance.transform.localPosition = new Vector3(0, 0.3f, 0);
+        _effectAoe = _aoeInstance.GetComponent<ParticleSystem>();
     }
 
     public void Start()
@@ -67,6 +74,12 @@ public class Weapon : MonoBehaviour
             p_y = pc.OVRCamera.leftHandAnchor.localPosition.y;
         }
         return r_x > threshold_rot && p_y > threshold_pos_y;
+    }
+
+    public void PlayAoeEffect()
+    {
+        _effectParticles.Stop();
+        _effectAoe.Play();
     }
 
     public bool IsFocusedByEye()
@@ -146,7 +159,7 @@ public class Weapon : MonoBehaviour
 
         // Debug key: 2
         if (Input.GetKeyDown(KeyCode.Alpha2) ||
-            OVRInput.Get(OVRInput.Button.SecondaryHandTrigger, OVRInput.Controller.Touch))
+            OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger, OVRInput.Controller.RTouch))
         {
             if (_bHolding)
             {

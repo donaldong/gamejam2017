@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Define spells which player can use (attached to Player)
-public class Spell : MonoBehaviour {
+public class Spell : MonoBehaviour
+{
 
     public enum Trigger { PrimaryIndex, SwordHoldingUp }
 
@@ -25,5 +26,14 @@ public class Spell : MonoBehaviour {
 
     public virtual void OnHit(Trigger t, Vector3 dir, Vector3 pos, Enemy enemy)
     {
+    }
+
+    public void Update()
+    {
+        // count down
+        if (_countDown > 0)
+        {
+            _countDown -= Time.deltaTime;
+        }
     }
 }

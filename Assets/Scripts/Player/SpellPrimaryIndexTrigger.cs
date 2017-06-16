@@ -19,18 +19,14 @@ public class SpellPrimaryIndexTrigger : Spell
         if (_countDown <= 0)
         {
             _countDown = coolDown;
-            return Input.GetKey(KeyCode.Alpha1) || OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger);
+            return Input.GetKey(KeyCode.Alpha1) || OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger, OVRInput.Controller.LTouch);
         }
         return false;
     }
 
-    public void Update()
+    public new void Update()
     {
-        // count down
-        if ( _countDown > 0 )
-        {
-            _countDown -= Time.deltaTime;
-        }
+        base.Update();
 
         // destroy finished animations for pit
         List<GameObject> keys = new List<GameObject>(_clips.Keys);
