@@ -31,10 +31,12 @@ public class Weapon : MonoBehaviour
     protected float _pcRadius;
     protected GameObject _aoeInstance;
     protected ParticleSystem _effectAoe;
+    protected AudioSource _audio;
 
     public void Awake()
     {
         _rb = GetComponent<Rigidbody>();
+        _audio = GetComponent<AudioSource>();
         _effectParticles = gameObject.GetComponentInChildren<ParticleSystem>();
         _effectParticles.Pause();
         _hand = transform.parent;
@@ -57,6 +59,8 @@ public class Weapon : MonoBehaviour
         _effectParticles.transform.position = pos;
         _effectParticles.Stop();
         _effectParticles.Play();
+        _audio.Stop();
+        _audio.Play();
     }
 
     // Called by some spells
