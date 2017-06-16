@@ -14,12 +14,14 @@ public class PlayerController : OVRPlayerController
     public bool bEyeHit;
     public OVRCameraRig OVRCamera;
     public Weapon weapon;
+    public TextMesh debugMenu;
 
     protected new void Awake()
     {
         base.Awake();
         OVRCamera = GetComponentInChildren<OVRCameraRig>();
         weapon = GetComponentInChildren<Weapon>();
+        debugMenu = GetComponentInChildren<TextMesh>();
         Enemy.pc = this;
         Spell.pc = this;
         Weapon.pc = this;

@@ -73,7 +73,9 @@ public class Weapon : MonoBehaviour
             r_x = pc.OVRCamera.leftHandAnchor.localEulerAngles.x;
             p_y = pc.OVRCamera.leftHandAnchor.localPosition.y;
         }
-        return r_x > threshold_rot && p_y > threshold_pos_y;
+        if (r_x < 0) r_x += 360.0f;
+        pc.debugMenu.text = "rx: " + r_x + " p_y: " + p_y;
+        return r_x < 330.0f + threshold_rot && r_x > 330.0f - threshold_rot && p_y > threshold_pos_y;
     }
 
     public void PlayAoeEffect()
