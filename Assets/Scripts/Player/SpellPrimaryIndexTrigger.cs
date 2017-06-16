@@ -45,6 +45,7 @@ public class SpellPrimaryIndexTrigger : Spell
             var i = Instantiate(spell, pc.OVRCamera.leftHandAnchor);
             i.transform.localPosition = Vector3.zero;
             _clips.Add(i, 0f);
+            pc.countSpellIndex++;
         }
     }
 

@@ -13,6 +13,7 @@ public class EnemyHealthbar : MonoBehaviour {
     private void Awake()
     {
         _text = GetComponent<TextMesh>();
+        _text.text = "";
     }
 
     public void Reset(Enemy enemy, float health)
@@ -24,7 +25,7 @@ public class EnemyHealthbar : MonoBehaviour {
 
     private void Update()
     {
-        _text.text = "HP: " + _currentHealth + "/" + _maxHealth;
+        //_text.text = "HP: " + _currentHealth + "/" + _maxHealth;
     }
 
     public void OnHit(float damage)

@@ -17,6 +17,7 @@ public class Enemy : MonoBehaviour
     protected string _walkAnimation = "walk";
     protected string _attackAnimation = "attack";
     protected bool _is_walking = true;
+    protected AudioSource _audio;
 
     public void Awake()
     {
@@ -24,6 +25,7 @@ public class Enemy : MonoBehaviour
         _nav = GetComponent<NavMeshAgent>();
         _anim = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
+        _audio = GetComponent<AudioSource>();
         _nav.updateRotation = false;
     }
 
@@ -116,6 +118,13 @@ public class Enemy : MonoBehaviour
     public void TryToDie()
     {
         if (!_healthbar.IsEmpty()) return;
+        pc.countEnemyKill++;
         Destroy(gameObject);
+    }
+
+    // Called by Animation Event
+    public void PlayAudio()
+    {
+        _audio.Play();
     }
 }

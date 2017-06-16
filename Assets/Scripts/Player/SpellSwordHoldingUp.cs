@@ -15,7 +15,7 @@ public class SpellSwordHoldingUp : Spell
         // Debug key: q
         if (_playable() || Input.GetKey(KeyCode.Q))
         {
-            Debug.Log("Die");
+            pc.countSpellAoe++;
             pc.weapon.PlayAoeEffect();
             Destroy(_instance);
             _instance = Instantiate(spell, null);

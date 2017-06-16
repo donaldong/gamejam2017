@@ -108,6 +108,7 @@ public class Weapon : MonoBehaviour
         transform.parent = null;
         Unfreeze();
         _rb.AddForce(GetControllerVelocity() * throwScaler);
+        pc.countWeaponThrow++;
     }
 
     protected void PickUp()
